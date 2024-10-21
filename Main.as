@@ -32,8 +32,27 @@ class Main extends MovieClip
 
 	public function onLoad()
 	{
-		hotkey_left.addEventListener("pressed", this, "onPressedLeft");
-		hotkey_right.addEventListener("pressed", this, "onPressedRight");
+		hotkey_left.onPress = onPressedLeft;
+		hotkey_right.onPress = onPressedRight;
+
+		// addItems([
+		// 	{name: "Item 1", value: 1},
+		// 	{name: "Item 2", value: 2},
+		// 	{name: "Item 3", value: 3},
+		// 	{name: "Item 4", value: 4},
+		// 	{name: "Item 5", value: 5},
+		// 	{name: "Item 6", value: 6}
+		// ]);
+	}
+
+	public function addItems(items:Array)
+	{
+		for (var i = 0; i < items.length; i++)
+		{
+			item_list.items.push(items[i]);
+		}
+		no_connection._visible = item_list.items.length == 0;
+		item_list.update();
 	}
 
 	private function onPressedLeft(event)

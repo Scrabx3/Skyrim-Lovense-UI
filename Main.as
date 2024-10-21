@@ -35,14 +35,20 @@ class Main extends MovieClip
 		hotkey_left.onPress = onPressedLeft;
 		hotkey_right.onPress = onPressedRight;
 
+		// item_list.categories = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6"];
 		// addItems([
-		// 	{name: "Item 1", value: 1},
-		// 	{name: "Item 2", value: 2},
-		// 	{name: "Item 3", value: 3},
-		// 	{name: "Item 4", value: 4},
-		// 	{name: "Item 5", value: 5},
-		// 	{name: "Item 6", value: 6}
+		// 	{name: "Item 1", category: 1},
+		// 	{name: "Item 2", category: 2},
+		// 	{name: "Item 3", category: 3},
+		// 	{name: "Item 4", category: 4},
+		// 	{name: "Item 5", category: 5},
+		// 	{name: "Item 6", category: 6}
 		// ]);
+	}
+
+	public function setCategories(categories:Array)
+	{
+		item_list.categories = categories;
 	}
 
 	public function addItems(items:Array)

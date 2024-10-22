@@ -39,6 +39,9 @@
 			_parent.minIndex = Math.min(_parent.items.length - _parent.maxClips, _parent.minIndex + _parent.maxClips);
 			_parent.update();
 		};
+
+		arrow_up._visible = false;
+		arrow_down._visible = false;
 	}
 
 	public function update():Void
@@ -69,21 +72,18 @@
 		clip.name.text = item.name;
 		clip.item = item;
 
-		var category = clip.category_switch;
-		if (item.category < categories.length) {
-			category.type.text = categories[item.category];
+		if (item.category >= 0 && item.category < categories.length) {
+			clip.category.text = categories[item.category];
 		} else {
-			category.type.text = "Unknown";
+			clip.category.text = "Unknown";
 		}
-		category.right.onPress = function() {
-			var clip = _parent._parent;
-			var list = clip._parent;
-			list.switchCategory(clip, 1);
+		clip.right.onPress = function() {
+			var clip = _parent;
+			clip._parent.switchCategory(clip, 1);
 		};
-		category.left.onPress = function() {
-			var clip = _parent._parent;
-			var list = clip._parent;
-			list.switchCategory(clip, -1);
+		clip.left.onPress = function() {
+			var clip = _parent;
+			clip._parent.switchCategory(clip, -1);
 		};
 	}
 
@@ -99,6 +99,6 @@
 		}
 		var item = clip.item;
 		item.category = (item.category + direction + categories.length) % categories.length;
-		clip.category_switch.type.text = categories[item.category];
+		clip.category.text = categories[item.category];
 	}
 }

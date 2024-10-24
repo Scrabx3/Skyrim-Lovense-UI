@@ -1,4 +1,9 @@
-﻿class Main extends MovieClip
+﻿import gfx.managers.FocusHandler;
+import gfx.ui.InputDetails;
+import gfx.ui.NavigationCode;
+import Shared.GlobalFunc;
+
+class Main extends MovieClip
 {
 	/* STAGE */
 	var background:MovieClip;
@@ -11,19 +16,21 @@
 
 	public function Main()
 	{
-		port.name.text = "PORT:";
-		ip_addr.name.text = "IP:";
-		hotkey_left.name.text = "$SL_Help";
-		hotkey_right.name.text = "$SL_Connect";
+		FocusHandler.instance.setFocus(this, 0);
 	}
 
 	public function onLoad()
 	{
+		hotkey_left.name.text = "$SL_Help";
+		hotkey_right.name.text = "$SL_Connect";
+		port.setNameAndRestrict("PORT:", "0-9");
+		ip_addr.setNameAndRestrict("IP:", "0-9.");
+
 		hotkey_left.onPress = function() {
 			Lovense.Help();
 		};
 		hotkey_right.onPress = function() {
-			Lovense.ReConnect(ip_addr.text.text, port.text.text);
+			Lovense.ReConnect(_parent.ip_addr.input.text, _parent.port.input.text);
 		};
 
 		// item_list.categories = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6"];
@@ -59,5 +66,20 @@
 		}
 		no_connection._visible = item_list.items.length == 0;
 		item_list.update();
+	}
+
+	// @GFx
+	public function handleInput(details: InputDetails, pathToFocus: Array): Boolean
+	{
+		var nextClip = pathToFocus.shift();
+		if (nextClip.handleInput(details, pathToFocus))
+			return true;
+
+		if (GlobalFunc.IsKeyPressed(details) && (details.navEquivalent == NavigationCode.TAB || details.navEquivalent == NavigationCode.SHIFT_TAB)) {
+			skse.CloseMenu("LovenseMenu");
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -22,10 +22,10 @@ class InputField extends MovieClip
 		};
 	}
 
-	public function setNameAndRestrict(name, restrict)
+	public function setNameAndRestrict(nameText, inputText, restrict)
 	{
-		trace("setNameAndRestrict " + name + restrict);
-		this.name.text = name;
+		this.name.text = nameText;
+		this.input.text = inputText;
 		this.input.restrict = restrict;
 	}
 

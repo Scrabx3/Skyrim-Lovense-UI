@@ -14,6 +14,9 @@ class Main extends MovieClip
 	var port:MovieClip;
 	var item_list:ItemList;
 
+	/* VARIABLES */
+	private var _waitForUpdate: Boolean = false;
+
 	public function Main()
 	{
 		FocusHandler.instance.setFocus(this, 0);
@@ -23,13 +26,18 @@ class Main extends MovieClip
 	{
 		hotkey_left.name.text = "$SL_Help";
 		hotkey_right.name.text = "$SL_Connect";
-		port.setNameAndRestrict("PORT:", "0-9");
-		ip_addr.setNameAndRestrict("IP:", "0-9.");
+		ip_addr.setNameAndRestrict("IP:", "", "0-9.");
+		port.setNameAndRestrict("PORT:", "30010", "0-9");
 
 		hotkey_left.onPress = function() {
 			Lovense.Help();
 		};
 		hotkey_right.onPress = function() {
+			if (_waitForUpdate) {
+				trace("Waiting for update...");
+				return;
+			}
+			_waitForUpdate = true;
 			Lovense.ReConnect(_parent.ip_addr.input.text, _parent.port.input.text);
 		};
 
@@ -66,6 +74,7 @@ class Main extends MovieClip
 		}
 		no_connection._visible = item_list.items.length == 0;
 		item_list.update();
+		_waitForUpdate = false;
 	}
 
 	// @GFx

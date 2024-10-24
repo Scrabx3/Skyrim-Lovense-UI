@@ -20,10 +20,10 @@
 	public function onLoad()
 	{
 		hotkey_left.onPress = function() {
-			_parent.onPressedLeft();
+			Lovense.Help();
 		};
 		hotkey_right.onPress = function() {
-			_parent.onPressedRight();
+			Lovense.ReConnect(ip_addr.text.text, port.text.text);
 		};
 
 		// item_list.categories = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6"];
@@ -59,15 +59,5 @@
 		}
 		no_connection._visible = item_list.items.length == 0;
 		item_list.update();
-	}
-
-	private function onPressedLeft(event)
-	{
-		trace("onPressLeft");
-	}
-
-	private function onPressedRight(event)
-	{
-		trace("onPressRight");
 	}
 }

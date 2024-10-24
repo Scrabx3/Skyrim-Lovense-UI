@@ -9,6 +9,9 @@ class Hotkey extends MovieClip
 	/* VARS */
 	private var __height:Number;
 	private var __width:Number;
+	private var _disabled:Boolean;
+	private var _alphaDEFAULT:Number = 80;
+	private var _alphaDISABLED:Number = 40;
 
 	// @mixin by gfx.events.EventDispatcher
 	public var dispatchEvent: Function;
@@ -23,23 +26,30 @@ class Hotkey extends MovieClip
 	{
 		__height = _height;
 		__width = _width;
-		_alpha = 80;
+		_disabled = false;
+		_alpha = _alphaDEFAULT;
 
 		EventDispatcher.initialize(this);
+	}
 
-		this.onRollOver = function()
-		{
-			TweenLite.to(this,0.2,{_width:__width + 2, _height:__height + 2, _alpha:100});
-		};
+	public function onRollOver() {
+		if (_disabled) return;
+		TweenLite.to(this,0.2,{_width:__width + 2, _height:__height + 2, _alpha:100});
+	};
 
-		this.onRollOut = function()
-		{
-			TweenLite.to(this,0.2,{_width:__width, _height:__height, _alpha:80});
-		};
+	public function onRollOut() {
+		if (_disabled) return;
+		TweenLite.to(this,0.2,{_width:__width, _height:__height, _alpha:80});
+	};
 
-		this.onPress = function()
-		{
-			dispatchEvent({type:"pressed"});
-		};
+	public function onPress() {
+		if (_disabled) return;
+		dispatchEvent({type:"pressed"});
+	};
+
+	public function set disabled(value:Boolean) {
+		_disabled = value;
+		onRollOut();
+		TweenLite.to(this, 0.2, {_alpha: value ? _alphaDISABLED : _alphaDEFAULT});
 	}
 }

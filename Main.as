@@ -1,4 +1,5 @@
-﻿import gfx.managers.FocusHandler;
+﻿import gfx.events.EventDispatcher;
+import gfx.managers.FocusHandler;
 import gfx.ui.InputDetails;
 import gfx.ui.NavigationCode;
 import Shared.GlobalFunc;
@@ -13,13 +14,21 @@ class Main extends MovieClip
 	var ip_addr:MovieClip;
 	var port:MovieClip;
 	var item_list:ItemList;
+	
+	// @mixin by gfx.events.EventDispatcher
+	public var dispatchEvent: Function;
+	public var dispatchQueue: Function;
+	public var hasEventListener: Function;
+	public var addEventListener: Function;
+	public var removeEventListener: Function;
+	public var removeAllEventListeners: Function;
+	public var cleanUpEvents: Function;
 
 	/* VARIABLES */
-	private var _waitForUpdate: Boolean = false;
-
 	public function Main()
 	{
 		FocusHandler.instance.setFocus(this, 0);
+		EventDispatcher.initialize(this);
 	}
 
 	public function onLoad()
@@ -29,17 +38,8 @@ class Main extends MovieClip
 		ip_addr.setNameAndRestrict("IP:", "", "0-9.");
 		port.setNameAndRestrict("PORT:", "30010", "0-9");
 
-		hotkey_left.onPress = function() {
-			Lovense.Help();
-		};
-		hotkey_right.onPress = function() {
-			if (_waitForUpdate) {
-				trace("Waiting for update...");
-				return;
-			}
-			_waitForUpdate = true;
-			Lovense.ReConnect(_parent.ip_addr.input.text, _parent.port.input.text);
-		};
+		hotkey_left.addEventListener("pressed", this, "onHelp");
+		hotkey_right.addEventListener("pressed", this, "onConnect");
 
 		// item_list.categories = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6"];
 		// addItems([
@@ -60,6 +60,17 @@ class Main extends MovieClip
 		// addItems([{name: "Item A", category: 1}]);
 	}
 
+	public function onHelp()
+	{
+		Lovense.Help();
+	}
+
+	public function onConnect()
+	{
+		Lovense.ReConnect(ip_addr.input.text, port.input.text);
+		hotkey_right.disabled = true;
+	}
+
 	public function setCategories(categories:Array)
 	{
 		item_list.categories = categories;
@@ -74,7 +85,8 @@ class Main extends MovieClip
 		}
 		no_connection._visible = item_list.items.length == 0;
 		item_list.update();
-		_waitForUpdate = false;
+
+		hotkey_right.disabled = false;
 	}
 
 	// @GFx

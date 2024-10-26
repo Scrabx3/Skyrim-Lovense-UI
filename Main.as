@@ -36,7 +36,7 @@ class Main extends MovieClip
 		hotkey_left.name.text = "$SL_Help";
 		hotkey_right.name.text = "$SL_Connect";
 		ip_addr.setNameAndRestrict("IP:", "", "0-9.");
-		port.setNameAndRestrict("PORT:", "30010", "0-9");
+		port.setNameAndRestrict("PORT:", "20010", "0-9");
 
 		hotkey_left.addEventListener("pressed", this, "onHelp");
 		hotkey_right.addEventListener("pressed", this, "onConnect");

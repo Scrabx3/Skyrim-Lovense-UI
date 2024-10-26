@@ -60,15 +60,15 @@ class Main extends MovieClip
 		// addItems([{name: "Item A", category: 1}]);
 	}
 
-	public function onHelp()
+	// @API
+	public function setIP(ip:String)
 	{
-		Lovense.Help();
+		this.ip_addr.input.text = ip;
 	}
 
-	public function onConnect()
+	public function setPort(port:String)
 	{
-		Lovense.ReConnect(ip_addr.input.text, port.input.text);
-		hotkey_right.disabled = true;
+		this.port.input.text = port;
 	}
 
 	public function setCategories(categories:Array)
@@ -102,5 +102,17 @@ class Main extends MovieClip
 		}
 
 		return false;
+	}
+
+	// @Callbacks
+	public function onHelp()
+	{
+		Lovense.Help();
+	}
+
+	public function onConnect()
+	{
+		Lovense.ReConnect(ip_addr.input.text, port.input.text);
+		hotkey_right.disabled = true;
 	}
 }

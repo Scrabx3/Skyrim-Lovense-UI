@@ -25,6 +25,7 @@
 	{
 		items = new Array();
 		itemClips = new Array();
+		categories = new Array();
 		minIndex = 0;
 
 		var clipRange = anchor_down._y - anchor_top._y;
@@ -72,11 +73,11 @@
 		clip.name.text = item.name;
 		clip.item = item;
 
-		if (item.category >= 0 && item.category < categories.length) {
-			clip.category.text = categories[item.category];
-		} else {
-			clip.category.text = "Unknown";
+		if (item.category < 0 || item.category >= categories.length) {
+			trace("Invalid category: " + item.category + " | categories[]: " + categories);
+			item.category = 0;
 		}
+		clip.category.text = categories[item.category];
 		clip.right.onPress = function() {
 			var clip = _parent;
 			clip._parent.switchCategory(clip, 1);
